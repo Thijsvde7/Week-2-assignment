@@ -1,0 +1,90 @@
+---
+title: "Eredivisie"
+author: "Thijs van den Ende"
+date: "2026-09-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include= FALSE}
+library(leaflet)
+```
+
+```{r}
+Eredivisie <- data.frame(
+  Club = c(
+    "ADO Den Haag", "Ajax", "AZ", "FC Groningen", "FC Twente", 
+    "FC Utrecht", "Feyenoord", "Fortuna Sittard", "Go Ahead Eagles", 
+    "N.E.C.", "PEC Zwolle", "PSV", "SC Cambuur", "Excelsior Rotterdam", 
+    "sc Heerenveen", "Sparta Rotterdam", "Telstar", "Willem II"
+  ),
+  stad = c(
+    "Den Haag", "Amsterdam", "Alkmaar", "Groningen", "Enschede", 
+    "Utrecht", "Rotterdam", "Sittard", "Deventer", 
+    "Nijmegen", "Zwolle", "Eindhoven", "Leeuwarden", "Rotterdam", 
+    "Heerenveen", "Rotterdam", "Velsen-Zuid", "Tilburg"
+  ),
+  stadion = c(
+    "Bingoal Stadion", "Johan Cruijff Arena", "AFAS Stadion", "Euroborg", "De Grolsch Veste", 
+    "Stadion Galgenwaard", "De Kuip", "Fortuna Sittard Stadion", "De Adelaarshorst", 
+    "Goffertstadion", "MAC³PARK stadion", "Philips Stadion", "Kooi Stadion", "Van Donge & De Roo Stadion", 
+    "Abe Lenstra Stadion", "Het Kasteel", "BUKO Stadion", "Koning Willem II Stadion"
+  ),
+  lat = c(
+    52.0625, 52.3142, 52.6125, 53.2061, 52.2366, 
+    52.0783, 51.8939, 50.9997, 52.2619, 
+    51.8239, 52.5169, 51.4418, 53.2014, 51.9197, 
+    52.9584, 51.9194, 52.4578, 51.5544
+  ),
+  lng = c(
+    4.3811, 4.9428, 4.7422, 6.5917, 6.8375, 
+    5.1458, 4.5231, 5.8622, 6.1683, 
+    5.8378, 6.1242, 5.4674, 5.8233, 4.5211, 
+    5.9361, 4.4342, 4.6369, 5.0669
+  ),
+  stringsAsFactors = FALSE
+)
+```
+
+```{r}
+Eredivisie$path <- c("Logo/ado.png",
+                     "Logo/ajax.png",
+                     "Logo/az.png",
+                     "Logo/groningen.png",
+                     "Logo/twente.png",
+                     "Logo/utrecht.png",
+                     "Logo/feyenoord.png",
+                     "Logo/fortuna-sittard.png",
+                     "Logo/go-ahead-eagles.png",
+                     "Logo/nec.png",
+                     "Logo/pec-zwolle.png",
+                     "Logo/psv.png",
+                     "Logo/cambuur.png",
+                     "Logo/excelsior.png",
+                     "Logo/heerenveen.png",
+                     "Logo/sparta.png",
+                     "Logo/telstar.png",
+                     "Logo/willem-ii.png")
+```
+
+```{r}
+Icon <- icons(iconUrl = Eredivisie$path,
+                 iconWidth = 35, 
+                 iconHeight = 35)
+```
+
+```{r leaflet-map}
+Eredivisie |> 
+  leaflet() |> 
+  addTiles() |> 
+  addMarkers(icon = Icon,
+             lng = Eredivisie$lng,
+             lat = Eredivisie$lat,
+             popup = paste(Eredivisie$Club, "<br>",
+                           Eredivisie$stad, "<br>",
+                           Eredivisie$stadion))
+```
+
